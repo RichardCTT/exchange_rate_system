@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "axios": "^1.10.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.2",
+    "node-cron": "^4.2.1"
+  },
+  "name": "exchange_rate_system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RichardCTT/exchange_rate_system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RichardCTT/exchange_rate_system/issues"
+  },
+  "homepage": "https://github.com/RichardCTT/exchange_rate_system#readme"
+}
