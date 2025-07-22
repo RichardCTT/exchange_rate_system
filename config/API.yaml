@@ -1,0 +1,289 @@
+openapi: 3.0.3
+info:
+  title: Currency Web API document
+  description: API for users, watchlists, and currency management
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /users:
+    get:
+      summary: Get all users
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Search users by username or email
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: Created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{userId}:
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: string
+        required: true
+        description: ID of the user
+    get:
+      summary: Get a user by ID
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Update user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '200':
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      summary: Delete user
+      responses:
+        '204':
+          description: No content
+  /watchlist:
+    get:
+      summary: Get all watchlists
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Search by watchlist name
+      responses:
+        '200':
+          description: List of watchlists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Watchlist'
+    post:
+      summary: Create a watchlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchlistInput'
+      responses:
+        '201':
+          description: Created watchlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Watchlist'
+  /watchlist/{watchlistId}:
+    parameters:
+      - in: path
+        name: watchlistId
+        schema:
+          type: string
+        required: true
+        description: ID of the watchlist
+    get:
+      summary: Get a watchlist by ID
+      responses:
+        '200':
+          description: Watchlist found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Watchlist'
+    put:
+      summary: Update a watchlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchlistInput'
+      responses:
+        '200':
+          description: Updated watchlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Watchlist'
+    delete:
+      summary: Delete a watchlist
+      responses:
+        '204':
+          description: No content
+  /currency:
+    get:
+      summary: Get supported currencies
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: Filter currencies by code or name
+      responses:
+        '200':
+          description: List of currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Currency'
+    post:
+      summary: Add a currency
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrencyInput'
+      responses:
+        '201':
+          description: Created currency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Currency'
+  /currency/{currencyCode}:
+    parameters:
+      - in: path
+        name: currencyCode
+        schema:
+          type: string
+        required: true
+        description: ISO code of currency
+    get:
+      summary: Get currency by code
+      responses:
+        '200':
+          description: Currency details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Currency'
+    put:
+      summary: Update currency
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CurrencyInput'
+      responses:
+        '200':
+          description: Updated currency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Currency'
+    delete:
+      summary: Delete a currency
+      responses:
+        '204':
+          description: No content
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    UserInput:
+      type: object
+      required:
+        - username
+        - email
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+    Watchlist:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        items:
+          type: array
+          items:
+            type: string
+    WatchlistInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        items:
+          type: array
+          items:
+            type: string
+    Currency:
+      type: object
+      properties:
+        code:
+          type: string
+          description: ISO currency code (e.g., USD, EUR)
+        name:
+          type: string
+        rate:
+          type: number
+          description: Exchange rate relative to base currency
+    CurrencyInput:
+      type: object
+      required:
+        - code
+        - name
+        - rate
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        rate:
+          type: number
